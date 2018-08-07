@@ -5,7 +5,12 @@ export class AppPage {
     return browser.get('/');
   }
 
-  getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+  async searchWeather(city: string) {
+    await element(by.css('input#city')).sendKeys(city);
+    await element(by.css('.btn-search')).click();
+  }
+
+  getWeatherTableData() {
+    return element.all(by.css('td')).getText();
   }
 }

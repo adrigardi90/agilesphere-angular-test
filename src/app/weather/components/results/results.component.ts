@@ -1,15 +1,21 @@
-import { Component, OnChanges } from '@angular/core';
+import { Component, OnChanges, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { Weather } from '../../../model/weather';
+import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrier';
 
 @Component({
   selector: 'app-results',
-  templateUrl: './results.component.html'
+  templateUrl: './results.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ResultsComponent implements OnChanges {
-  constructor() { }
+export class ResultsComponent {
 
-  ngOnChanges() {
-    // IMPLEMENT ANYTHING YOU BEKIEVE YOU MIGHT NEED HERE
-  }
+  /**
+   * Array of citites
+   */
+  @Input() cities: any;
+
+  constructor() { }
 }
 
 

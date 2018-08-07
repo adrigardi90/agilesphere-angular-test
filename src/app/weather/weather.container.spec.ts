@@ -1,30 +1,44 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { WeatherContainer } from './weather.container';
+import { WeatherContainerComponent } from './weather.container';
+import { Store, StoreModule } from '@ngrx/store';
+import { WeatherState, reducers, Search } from './store';
 
 describe('WeatherContainer', () => {
-  let component: WeatherContainer;
-  let fixture: ComponentFixture<WeatherContainer>;
+  let component: WeatherContainerComponent;
+  let fixture: ComponentFixture<WeatherContainerComponent>;
+  let store: Store<WeatherState>;
 
-
+  const initalState = {
+    weather: {
+      cities: []
+    }
+  };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WeatherContainer ],
-      imports: [],
+      declarations: [WeatherContainerComponent],
+      imports: [
+        StoreModule.forRoot({ 'weather': reducers }, { initialState: initalState })],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WeatherContainer);
+    fixture = TestBed.createComponent(WeatherContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    store = TestBed.get(Store);
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  // PLEASE IMPLEMENT MORE TESTS
+  it('should dispatch an action to search the city weather', () => {
+    const action = new Search('test');
+    component._onSearch('test');
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
 });

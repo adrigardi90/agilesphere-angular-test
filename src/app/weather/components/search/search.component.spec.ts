@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchComponent } from './search.component';
 
 import Spy = jasmine.Spy;
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -12,11 +13,14 @@ describe('SearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SearchComponent ],
-      imports: [],
+      declarations: [SearchComponent],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -29,5 +33,13 @@ describe('SearchComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // IMPLEMENT TESTS HERE
+  it('should emit the city', () => {
+    component.cityForm.setValue({ city: 'test' });
+
+    component.searched.subscribe((term) => {
+      expect(term).toBe('test');
+    });
+
+    component.onSubmit();
+  });
 });
